@@ -10,7 +10,7 @@ namespace UniScreen.View
     public sealed class ScreenView : MonoBehaviour
     {
         [SerializeField] private ScreenAnimationBase[] _screenAnimations = default;
-        private readonly Stack<ScreenView> _screens = new();
+        private readonly Stack<ScreenView> _screens = new Stack<ScreenView>();
         private CanvasGroup _canvasGroup = default;
 
         private void Awake()
