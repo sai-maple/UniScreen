@@ -13,12 +13,5 @@
     "name": "",
     "email": "",
     "url": ""
-  },
-  "samples" : [
-    {
-      "displayName" : "Sample",
-      "description" : "Sample",
-      "paath" : "Samples~/Sample"
-    }
-  ]
+  }
 }

@@ -18,9 +18,9 @@ namespace UniScreen.View
             _canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        public ScreenView Create()
+        public ScreenView Create(Transform content)
         {
-            return Instantiate(this);
+            return Instantiate(this, content, false);
         }
 
         public async UniTask HideCurrent(bool isOverride = false, CancellationToken token = default)
