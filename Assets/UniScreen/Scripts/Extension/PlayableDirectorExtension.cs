@@ -9,6 +9,8 @@ namespace UniScreen.Extension
     {
         public static async UniTask PlayAsync(this PlayableDirector self, CancellationToken cancellationToken = default)
         {
+            self.Play();
+
             if (cancellationToken.IsCancellationRequested) return;
 
             while (!IsFinished(self))
