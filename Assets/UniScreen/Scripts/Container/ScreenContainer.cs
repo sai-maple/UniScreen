@@ -22,7 +22,7 @@ namespace UniScreen.Container
 
         public async UniTask NewScreen(string screen, bool isOverride = false, CancellationToken token = default)
         {
-            if (!isOverride && _screen.TryPeek(out var current)) await current.HideAll(token);
+            if (_screen.TryPeek(out var current)) await current.HideAll(isOverride, token);
             var asset = await _factory.CreateAsync(screen, _content, token);
             if (token.IsCancellationRequested) return;
             _screen.Push(asset);

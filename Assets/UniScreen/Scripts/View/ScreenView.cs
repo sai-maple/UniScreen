@@ -25,7 +25,7 @@ namespace UniScreen.View
 
         public async UniTask HideCurrent(bool isOverride = false, CancellationToken token = default)
         {
-            if (!isOverride && _screens.TryPeek(out var current)) await current.HideAll(token);
+            if (_screens.TryPeek(out var current)) await current.HideAll(isOverride, token);
         }
 
         public async UniTask PushScreen(ScreenView newScreen, CancellationToken token = default)
@@ -55,7 +55,7 @@ namespace UniScreen.View
 
         public async UniTask Close(CancellationToken token = default)
         {
-            await HideAll(token);
+            await HideAll(false, token);
             Destroy(gameObject);
         }
 
@@ -73,16 +73,17 @@ namespace UniScreen.View
             _canvasGroup.blocksRaycasts = true;
         }
 
-        public async UniTask HideAll(CancellationToken token = default)
+        public async UniTask HideAll(bool isOverride, CancellationToken token = default)
         {
             _canvasGroup.interactable = false;
             _canvasGroup.blocksRaycasts = false;
             var tasks = new List<UniTask>();
             if (_screens.TryPeek(out var current))
             {
-                tasks.Add(current.HideAll(token));
+                tasks.Add(current.HideAll(isOverride, token));
             }
 
+            if (isOverride) return;
             tasks.AddRange(Enumerable.Select(_screenAnimations, screenAnimation => screenAnimation.Hide(token)));
             await UniTask.WhenAll(tasks);
         }
