@@ -13,7 +13,9 @@ namespace UniScreen.Extension
             animator.SetTrigger(id);
             await UniTask.DelayFrame(1, cancellationToken: token);
             if (token.IsCancellationRequested) return;
-            var state = animator.GetCurrentAnimatorStateInfo(layer);
+            var state = animator.IsInTransition(layer)
+                ? animator.GetNextAnimatorStateInfo(layer)
+                : animator.GetCurrentAnimatorStateInfo(layer);
             await UniTask.Delay(TimeSpan.FromSeconds(state.length), cancellationToken: token);
         }
     }
