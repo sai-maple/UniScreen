@@ -11,11 +11,15 @@ namespace UniScreen.Extension
             CancellationToken token = default)
         {
             animator.SetTrigger(id);
-            await UniTask.DelayFrame(1, cancellationToken: token);
-            if (token.IsCancellationRequested) return;
-            var state = animator.IsInTransition(layer)
-                ? animator.GetNextAnimatorStateInfo(layer)
-                : animator.GetCurrentAnimatorStateInfo(layer);
+            AnimatorStateInfo state;
+            while (true)
+            {
+                await UniTask.DelayFrame(1, cancellationToken: token);
+                if (token.IsCancellationRequested) return;
+                state = animator.GetCurrentAnimatorStateInfo(layer);
+                if (state.shortNameHash == id) break;
+            }
+
             await UniTask.Delay(TimeSpan.FromSeconds(state.length), cancellationToken: token);
         }
     }
